@@ -26,7 +26,8 @@ class PokemonEntity(models.Model):
     defence = models.IntegerField(default=10)
     stamina = models.IntegerField(default=10)
     
-
+    def __str__(self):
+        return f"{self.pokemon.title} (уровень: {self.level})"
 
     
 # your models here
