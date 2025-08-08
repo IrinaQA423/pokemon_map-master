@@ -1,13 +1,8 @@
 import folium
-
-
-import datetime
 from django.utils.timezone import localtime, now
-from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from .models import Pokemon, PokemonEntity
-from django.conf import settings
-from django.http import HttpRequest
+from django.http import HttpResponseNotFound
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -31,7 +26,7 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
-    
+
     pokemons = Pokemon.objects.all()
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
@@ -40,7 +35,7 @@ def show_all_pokemons(request):
         appeared_at__lte=current_time,
         disappeared_at__gt=current_time
     )
-    
+
     for entity in pokemon_entities:
         photo_url = DEFAULT_IMAGE_URL
         if entity.pokemon.photo:
@@ -49,7 +44,7 @@ def show_all_pokemons(request):
             folium_map,
             entity.lat,
             entity.lon,
-            photo_url 
+            photo_url
         )
 
     pokemons_on_page = []
@@ -110,7 +105,7 @@ def show_pokemon(request, pokemon_id):
             'title_ru': next_evo.title,
             'img_url': request.build_absolute_uri(next_evo.photo.url) if next_evo.photo else DEFAULT_IMAGE_URL
         })
-        
+
     next_evolution = next_evolutions[0] if next_evolutions else None
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
@@ -118,7 +113,7 @@ def show_pokemon(request, pokemon_id):
             'pokemon_id': pokemon.id,
             'title_ru': pokemon.title,
             'title_en': pokemon.title_en,
-            'title_jp': pokemon.title_jp,             
+            'title_jp': pokemon.title_jp,
             'img_url': request.build_absolute_uri(pokemon.photo.url) if pokemon.photo else DEFAULT_IMAGE_URL,
             'description': pokemon.description,
             'previous_evolution': previous_evolution,
