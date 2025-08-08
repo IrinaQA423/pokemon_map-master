@@ -6,18 +6,26 @@ from django.utils import timezone
 
 
 class Pokemon(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True)
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='pokemon_photos')
     description = models.TextField(blank=True)
     title_en = models.CharField(max_length=200,blank=True)
     title_jp = models.CharField(max_length=200,blank=True)
-
+    previous_evolution = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='next_evolutions', 
+        verbose_name='Из кого эволюционировал'
+    )
     def __str__(self):
         return f'{self.title}'
 
 
 class PokemonEntity(models.Model):
+    id = models.BigAutoField(primary_key=True)
     lat = models.FloatField()
     lon = models.FloatField()
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE)
