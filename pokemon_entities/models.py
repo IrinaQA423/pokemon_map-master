@@ -30,7 +30,7 @@ class PokemonEntity(models.Model):
     """Модель для хранения информации о появлении покемона на карте."""
     lat = models.FloatField(verbose_name="Широта")
     lon = models.FloatField(verbose_name="Долгота")
-    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, verbose_name="Покемон")
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, related_name='entities', verbose_name="Покемон")
     appeared_at = models.DateTimeField(default=timezone.now, verbose_name="Время появления")
     disappeared_at = models.DateTimeField(default=timezone.now, verbose_name="Время исчезновения")
     level = models.IntegerField(default=1, verbose_name="Уровень")
