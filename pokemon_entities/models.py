@@ -4,7 +4,6 @@ from django.db import models
 
 class Pokemon(models.Model):
     """Модель покемона с основными характеристиками и эволюциями"""
-    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=200, verbose_name="Название(рус.)")
     photo = models.ImageField(upload_to='pokemon_photos', verbose_name="Изображение")
     description = models.TextField(blank=True, verbose_name="Описание")
@@ -29,7 +28,6 @@ class Pokemon(models.Model):
 
 class PokemonEntity(models.Model):
     """Модель для хранения информации о появлении покемона на карте."""
-    id = models.BigAutoField(primary_key=True)
     lat = models.FloatField(verbose_name="Широта")
     lon = models.FloatField(verbose_name="Долгота")
     pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, verbose_name="Покемон")
